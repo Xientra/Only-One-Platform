@@ -60,9 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\Menu.cs" />
     <Compile Include="Assets\Scripts\Platform.cs" />
     <Compile Include="Assets\Scripts\PlatformController.cs" />
-    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Zone.cs" />
     <None Include="Assets\ToDoList.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/_Documents/_Computerstuff/Projects - Unity/Only One Platform/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

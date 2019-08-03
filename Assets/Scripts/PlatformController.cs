@@ -4,17 +4,38 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour {
 
+    public bool active = true;
+
     public Platform platform;
+    public GameObject platformPrefab;
+    public Color cursorPlatformColor;
+    private Platform cursorPlatform;
 
     void Start() {
-        
+        platform = GameController.activeInstance.activePlatform;
+
+        cursorPlatform = Instantiate(platformPrefab).GetComponent<Platform>();
+        cursorPlatform.sprRenderer.color = cursorPlatformColor;
+        cursorPlatform.col.enabled = false;
     }
 
     void Update() {
-        if (Input.GetAxis("Move Platform") != 0) {
+        active = GameController.activeInstance.gameIsRunning && GameController.activeInstance.inMainMenu == false;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Vector2 newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            platform.transform.position = newPos;
+        cursorPlatform.transform.position = mousePos;
+        cursorPlatform.gameObject.SetActive(active);
+
+        if (active == true && GameController.activeInstance.inMainMenu == false) {
+            if (Input.GetAxis("Move Platform") != 0) {
+                platform.transform.position = mousePos;
+            }
+        }
+    }
+
+    private void OnDestroy() {
+        if (cursorPlatform != null) {
+            cursorPlatform.gameObject.SetActive(false);
         }
     }
 }

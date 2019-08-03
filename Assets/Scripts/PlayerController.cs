@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 
     private const float RAY_DISTANCE = 0.1f;
-
+    public bool removeControll = false;
+    public bool pauseMovement = false;
 
     public float movementSpeed = 10f;
 
@@ -41,27 +42,30 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void Update() {
-
         isGrounded = CheckIfGrounded();
 
-        HorizontalMovement();
-        VerticalMovement();
+        if (pauseMovement == false) {
+            if (removeControll == false) {
+                MovementInput();
+            }
+            PerformMovment();
+        }
     }
 
-    private void HorizontalMovement() {
+    private void MovementInput() {
         horizontalSpeed = Input.GetAxis("Horizontal");
+
         if (isGrounded == true && Input.GetAxis("Jump") != 0) {
             jumping = true;
             jumpForce = jumpStrength;
         }
-
-        if (horizontalSpeed != 0) {
-            //transform.position += transform.right * horizontalSpeed * movementSpeed * Time.deltaTime;
-            MoveHorizontal(horizontalSpeed * movementSpeed);
-        }
     }
 
-    private void VerticalMovement() {
+    private void PerformMovment() {
+        if (horizontalSpeed != 0) {
+            MoveHorizontal(horizontalSpeed * movementSpeed);
+        }
+
         if (jumping == true) {
             float lowJumpMulti = 0f;
             if (Input.GetAxis("Jump") != 0) {
@@ -74,7 +78,6 @@ public class PlayerMovement : MonoBehaviour {
                 jumping = false;
             }
 
-            //transform.position += transform.up * jumpForce * Time.deltaTime;
             MoveVertical(jumpForce);
         }
         else {
@@ -82,7 +85,6 @@ public class PlayerMovement : MonoBehaviour {
                 gravityForce += gravityStrength * gravityForceChangeSpeed * Time.deltaTime;
             }
             else gravityForce = gravityStrength;
-            //transform.position += -transform.up * gravityForce * Time.deltaTime;
             MoveVertical(-gravityForce);
         }
 
@@ -117,8 +119,10 @@ public class PlayerMovement : MonoBehaviour {
             RaycastHit2D rayHit = Physics2D.Raycast(transform.position + new Vector3(direction * transform.lossyScale.x / 2, -(transform.lossyScale.y / 2) + d), Vector3.right, toMoveDistance);
 
             if (rayHit.collider != null) {
-                toMoveDistance = direction * (-direction * (transform.position.x + (direction * transform.lossyScale.x / 2)) + (direction * rayHit.point.x)); //this now will allways take the last ray, if that one hit
-                hitSth = true;
+                if (rayHit.collider.isTrigger != true) {
+                    toMoveDistance = direction * (-direction * (transform.position.x + (direction * transform.lossyScale.x / 2)) + (direction * rayHit.point.x)); //this now will allways take the last ray, if that one hit
+                    hitSth = true;
+                }
             }
 
             Debug.DrawRay(transform.position + new Vector3(direction * transform.lossyScale.x / 2, -(transform.lossyScale.y / 2) + d), Vector3.right * toMoveDistance, Color.green);
@@ -139,8 +143,10 @@ public class PlayerMovement : MonoBehaviour {
         for (float d = RAY_DISTANCE * 0.5f; d <= transform.lossyScale.x - RAY_DISTANCE * 0.5f; d += RAY_DISTANCE) {
             RaycastHit2D rayHit = Physics2D.Raycast(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, direction * transform.lossyScale.y / 2), Vector3.up, toMoveDistance);
             if (rayHit.collider != null) {
-                toMoveDistance = direction * (-direction * (transform.position.y + (direction * transform.lossyScale.y / 2)) + (direction * rayHit.point.y)); //this now will allways take the last ray, if that one hit
-                hitSth = true;
+                if (rayHit.collider.isTrigger != true) {
+                    toMoveDistance = direction * (-direction * (transform.position.y + (direction * transform.lossyScale.y / 2)) + (direction * rayHit.point.y)); //this now will allways take the last ray, if that one hit
+                    hitSth = true;
+                }
             }
 
             Debug.DrawRay(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, direction * transform.lossyScale.y / 2), Vector3.up * toMoveDistance, Color.blue);

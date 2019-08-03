@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Platform : MonoBehaviour {
 
-    [HideInInspector]
-    public Collider2D collider;
+    public Collider2D col;
+    public SpriteRenderer sprRenderer;
 
     public void Start() {
-        collider = GetComponent<Collider2D>();
-        
+        //col = GetComponent<Collider2D>();
+        //sprRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void ChangeToGround() {

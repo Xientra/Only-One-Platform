@@ -8,3 +8,4 @@ Zone, wo Platform nicht hin kann
 Zone, wo Platform klein ist
 Zone, wo Platform nur an eine bestimmte stelle kann
 Zone, wo Platform sich dreht
+Zone, wo die Platform hin und her fährt
