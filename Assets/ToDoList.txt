@@ -1,0 +1,10 @@
+
+-= ToDoList =-
+
+
+(x) Create a to do list
+Zone, wo Platform 90 gedreht ist
+Zone, wo Platform nicht hin kann
+Zone, wo Platform klein ist
+Zone, wo Platform nur an eine bestimmte stelle kann
+Zone, wo Platform sich dreht
