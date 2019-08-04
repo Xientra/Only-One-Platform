@@ -10,6 +10,8 @@
 Zone, wo Platform sich dreht
 Zone, wo die Platform hin und her fährt
 
+particle effects
+death counter
 Sounds
 
 win

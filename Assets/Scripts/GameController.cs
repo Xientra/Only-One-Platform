@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour {
     public GameObject goal;
     private GameObject goalOuterSquare;
     public float deathZoneDepth;
-    private const float TIME_BEFORE_SCENE_LOAD = 2f;
+    private const float TIME_BEFORE_SCENE_LOAD = 1.5f;
     private bool hitGoal = false;
 
     [Space(5)]

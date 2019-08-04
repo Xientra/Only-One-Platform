@@ -31,7 +31,7 @@ public class Zone : MonoBehaviour {
                 animationSpeed = 40f;
                 break;
             case (ZoneType.ShrinkZone):
-                animationSpeed = 30;
+                animationSpeed = 45;
                 break;
             case (ZoneType.RemoveZone):
                 animationSpeed = 35f;
