@@ -44,6 +44,8 @@ public class GameController : MonoBehaviour {
     void Awake() {
         if (activeInstance == null) {
             activeInstance = this;
+
+            Load();
         }
         else {
             Destroy(this.gameObject);
@@ -83,8 +85,8 @@ public class GameController : MonoBehaviour {
         foreach (RaycastHit2D hit in boxHit) {
             if (hit.collider != null) {
                 if (hit.collider.CompareTag("Player") && hitGoal == false) {
-                    if (SceneManager.GetActiveScene().buildIndex + 1 > levelProgress.Length) {
-                        levelProgress[SceneManager.GetActiveScene().buildIndex - 1] = true;
+                    if (SceneManager.GetActiveScene().buildIndex + 1 - 1 < levelProgress.Length) {
+                        levelProgress[SceneManager.GetActiveScene().buildIndex + 1 - 1] = true;
                     }
                     GameObject _fx = Instantiate(winEffect, goal.transform.position, Quaternion.identity, null);
                     Destroy(_fx, 1.5f);
@@ -129,6 +131,7 @@ public class GameController : MonoBehaviour {
 
     public void LoadMainMenu() {
         SceneManager.LoadScene(0);
+        Save();
     }
     private IEnumerator LoadMainMenuAfterTime(float time) {
         yield return new WaitForSeconds(time);
@@ -137,11 +140,21 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public void Save() {
+    public void OnDestroy() {
+        Save();
+    }
 
+    private string LEVEL_SAVE_NAME = "level";
+    public void Save() {
+        for (int i = 0; i < levelProgress.Length; i++) {
+            PlayerPrefs.SetString(LEVEL_SAVE_NAME + i.ToString(), levelProgress[i].ToString());
+        }
+        PlayerPrefs.Save();
     }
 
     public void Load() {
-
+        for (int i = 0; i < levelProgress.Length; i++) {
+            levelProgress[i] = PlayerPrefs.GetString(LEVEL_SAVE_NAME + i.ToString()).ToLower() == true.ToString().ToLower();
+        }
     }
 }

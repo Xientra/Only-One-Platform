@@ -125,4 +125,5 @@ MonoBehaviour:
   platform: {fileID: 0}
   defaulColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0.5019608}
   unableToPlaceColor: {r: 0.8207547, g: 0.13725491, b: 0.13725491, a: 0.5019608}
-  shrunkenSize: {x: 1.5, y: 0.1}
+  shrunkenWidth: 1.5
+  removeTime: 0.5

@@ -6,6 +6,13 @@
 (x) Zone, wo Platform 90 gedreht ist
 (x) Zone, wo Platform nicht hin kann
 (x) Zone, wo Platform klein ist
-Zone, wo Platform nur an eine bestimmte stelle kann
+(x) Zone, wo Platform nur an eine bestimmte stelle kann
 Zone, wo Platform sich dreht
 Zone, wo die Platform hin und her fährt
+
+Sounds
+
+win
+death
+walk
+jump

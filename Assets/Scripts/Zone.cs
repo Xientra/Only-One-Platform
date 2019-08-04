@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Zone : MonoBehaviour {
 
-    public enum ZoneType { NoPlaceZone, ShrinkZone, WallZone, TurningZone, DiscreteZone}
+    public enum ZoneType { NoPlaceZone, ShrinkZone, WallZone, TurningZone, DiscreteZone, RemoveZone}
     public ZoneType type = ZoneType.NoPlaceZone;
 
     public GameObject discretePlatformPosition;

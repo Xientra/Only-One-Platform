@@ -16,7 +16,9 @@ public class PlatformController : MonoBehaviour {
     private bool unableToPlace = false;
 
     private Vector2 originalSize;
-    public Vector2 shrunkenSize;
+    public float shrunkenWidth = 1.5f;
+    private bool removeNextPlatform = false;
+    public float removeTime = 2f;
 
 
 
@@ -51,8 +53,13 @@ public class PlatformController : MonoBehaviour {
     }
 
     public void AdjustPlatform() {
+        platform.gameObject.SetActive(true);
         platform.transform.localScale = transform.localScale;
         platform.transform.rotation = transform.rotation;
+
+        if (removeNextPlatform == true) {
+            StartCoroutine(RemovePlatform(removeTime, mousePos));
+        }
     }
 
     private void CheckForZones() {
@@ -70,32 +77,26 @@ public class PlatformController : MonoBehaviour {
                         spr.color = unableToPlaceColor;
                         unableToPlace = true;
                         break;
-                    case (Zone.ZoneType.ShrinkZone):
-                        transform.localScale = shrunkenSize;
-                        break;
                     case (Zone.ZoneType.WallZone):
                         transform.localScale = new Vector2(transform.localScale.y, transform.localScale.x);
                         break;
-
+                    case (Zone.ZoneType.ShrinkZone):
+                        if (transform.localScale.x > transform.localScale.y) {
+                            transform.localScale = new Vector3(shrunkenWidth, transform.localScale.y);
+                        }
+                        else {
+                            transform.localScale = new Vector3(transform.localScale.x, shrunkenWidth);
+                        }
+                        break;
+                    case (Zone.ZoneType.RemoveZone):
+                        removeNextPlatform = true;
+                        break;
                     case (Zone.ZoneType.DiscreteZone):
                         transform.position = collidedZone.discretePlatformPosition.transform.position;
                         break;
                 }
             }
         }
-
-
-        //RaycastHit2D[] noPlaceZoneChecks = Physics2D.BoxCastAll(transform.position, transform.lossyScale, 0, Vector2.zero);
-        //foreach (RaycastHit2D hit in allHits) {
-        //    Zone collidedZone = hit.collider.GetComponent<Zone>();
-        //    if (collidedZone != null) {
-        //        Debug.Log("collided with " + collidedZone.type);
-        //        if (collidedZone.type == Zone.ZoneType.NoPlaceZone) {
-        //            spr.color = unableToPlaceColor;
-        //            unableToPlace = true;
-        //        }
-        //    }
-        //}
     }
 
 
@@ -109,5 +110,14 @@ public class PlatformController : MonoBehaviour {
         transform.rotation = Quaternion.identity;
         //discrete
         transform.position = mousePos;
+        //remove
+        removeNextPlatform = false;
+    }
+
+    private IEnumerator RemovePlatform(float delay, Vector3 position) {
+        yield return new WaitForSeconds(delay);
+        if (platform.transform.position == position) {
+            platform.gameObject.SetActive(false);
+        }
     }
 }

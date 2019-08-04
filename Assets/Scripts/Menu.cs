@@ -22,6 +22,7 @@ public class Menu : MonoBehaviour {
 
     public void Btn_LoadLevel(int index) {
         SceneManager.LoadScene(index);
+        GameController.activeInstance.Save();
     }
 
     public void Btn_exit() {
