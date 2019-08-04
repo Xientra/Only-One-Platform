@@ -45,14 +45,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameIsRunning: 1
+  levelProgress: 01000000000000000000
   activePlayer: {fileID: 0}
   activePlatform: {fileID: 0}
+  PlatformControllerPrefab: {fileID: 4343758953235101038, guid: 3c6a871506787734480cb7cf0461c0bd,
+    type: 3}
+  activePlatformController: {fileID: 0}
   goal: {fileID: 0}
   deathZoneDepth: -12
   inMainMenu: 0
   spawnPoint: {fileID: 0}
   inGameMenu: {fileID: 8962220365074124180}
   playerDeathEffect: {fileID: 6645837569062149198, guid: c310875aca99a1a49b5abc1d8ea9e28a,
+    type: 3}
+  winEffect: {fileID: 982824185645973464, guid: 5fadb39b5a675bb42a5560e58ea24243,
     type: 3}
 --- !u!1001 &8221493663561051123
 PrefabInstance:
@@ -61,11 +67,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7327201061521718500}
     m_Modifications:
-    - target: {fileID: 1042775854040418331, guid: 6a2e851c103664e4998ebbff816cf4dc,
-        type: 3}
-      propertyPath: m_Name
-      value: InGameMenu
-      objectReference: {fileID: 0}
     - target: {fileID: 1042775854040418335, guid: 6a2e851c103664e4998ebbff816cf4dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -171,15 +172,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1042775853446408998, guid: 6a2e851c103664e4998ebbff816cf4dc,
+    - target: {fileID: 1042775854040418331, guid: 6a2e851c103664e4998ebbff816cf4dc,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7327201061521718503}
-    - target: {fileID: 1042775853446408998, guid: 6a2e851c103664e4998ebbff816cf4dc,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadMainMenu
+      propertyPath: m_Name
+      value: InGameMenu
       objectReference: {fileID: 0}
     - target: {fileID: 1042775854902905502, guid: 6a2e851c103664e4998ebbff816cf4dc,
         type: 3}
@@ -190,6 +186,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenInGameMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042775853446408998, guid: 6a2e851c103664e4998ebbff816cf4dc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7327201061521718503}
+    - target: {fileID: 1042775853446408998, guid: 6a2e851c103664e4998ebbff816cf4dc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadMainMenu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a2e851c103664e4998ebbff816cf4dc, type: 3}

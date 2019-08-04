@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour {
     private void MovementInput() {
         horizontalSpeed = Input.GetAxis("Horizontal");
 
-        if (isGrounded == true && Input.GetAxis("Jump") != 0) {
+        if (isGrounded == true && Input.GetAxis("Jump") != 0 && jumping == false) {
             jumping = true;
             jumpForce = jumpStrength;
         }
@@ -97,15 +97,17 @@ public class PlayerController : MonoBehaviour {
         bool result = false;
 
         for (float d = -coyoteTime; d <= transform.lossyScale.x + coyoteTime; d += RAY_DISTANCE) {
-            RaycastHit2D rayHit = Physics2D.Raycast(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, -transform.lossyScale.y / 2), Vector3.up, -isGroundedDistance);
-            if (rayHit.collider != null) {
-                if (rayHit.collider.gameObject.layer == 8) { //Layer 8 is "ground"
-                    result = true;
+            RaycastHit2D[] rayHits = Physics2D.RaycastAll(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, -transform.lossyScale.y / 2), Vector3.up, -isGroundedDistance);
+            foreach (RaycastHit2D rayHit in rayHits) {
+                if (rayHit.collider != null) {
+                    if (rayHit.collider.gameObject.layer == 8) { //Layer 8 is "ground"
+                        result = true;
+                    }
                 }
             }
+
             Debug.DrawRay(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, -transform.lossyScale.y / 2), Vector3.up * -isGroundedDistance, Color.red);
         }
-
         return result;
     }
 
@@ -115,19 +117,18 @@ public class PlayerController : MonoBehaviour {
         bool hitSth = false;
 
         for (float d = RAY_DISTANCE * 0.5f; d <= transform.lossyScale.y - RAY_DISTANCE * 0.5f; d += RAY_DISTANCE) {
-
-            RaycastHit2D rayHit = Physics2D.Raycast(transform.position + new Vector3(direction * transform.lossyScale.x / 2, -(transform.lossyScale.y / 2) + d), Vector3.right, toMoveDistance);
-
-            if (rayHit.collider != null) {
-                if (rayHit.collider.isTrigger != true) {
-                    toMoveDistance = direction * (-direction * (transform.position.x + (direction * transform.lossyScale.x / 2)) + (direction * rayHit.point.x)); //this now will allways take the last ray, if that one hit
-                    hitSth = true;
+            RaycastHit2D[] rayHits = Physics2D.RaycastAll(transform.position + new Vector3(direction * transform.lossyScale.x / 2, -(transform.lossyScale.y / 2) + d), Vector3.right, toMoveDistance);
+            foreach (RaycastHit2D rayHit in rayHits) {
+                if (rayHit.collider != null) {
+                    if (rayHit.collider.isTrigger != true) {
+                        toMoveDistance = direction * (-direction * (transform.position.x + (direction * transform.lossyScale.x / 2)) + (direction * rayHit.point.x)); //this now will allways take the last ray, if that one hit
+                        hitSth = true;
+                    }
                 }
             }
 
             Debug.DrawRay(transform.position + new Vector3(direction * transform.lossyScale.x / 2, -(transform.lossyScale.y / 2) + d), Vector3.right * toMoveDistance, Color.green);
         }
-
         transform.position += Vector3.right * toMoveDistance;
         return hitSth;
     }
@@ -141,17 +142,18 @@ public class PlayerController : MonoBehaviour {
         bool hitSth = false;
 
         for (float d = RAY_DISTANCE * 0.5f; d <= transform.lossyScale.x - RAY_DISTANCE * 0.5f; d += RAY_DISTANCE) {
-            RaycastHit2D rayHit = Physics2D.Raycast(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, direction * transform.lossyScale.y / 2), Vector3.up, toMoveDistance);
-            if (rayHit.collider != null) {
-                if (rayHit.collider.isTrigger != true) {
-                    toMoveDistance = direction * (-direction * (transform.position.y + (direction * transform.lossyScale.y / 2)) + (direction * rayHit.point.y)); //this now will allways take the last ray, if that one hit
-                    hitSth = true;
+            RaycastHit2D[] rayHits = Physics2D.RaycastAll(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, direction * transform.lossyScale.y / 2), Vector3.up, toMoveDistance);
+            foreach (RaycastHit2D rayHit in rayHits) {
+                if (rayHit.collider != null) {
+                    if (rayHit.collider.isTrigger != true) {
+                        toMoveDistance = direction * (-direction * (transform.position.y + (direction * transform.lossyScale.y / 2)) + (direction * rayHit.point.y)); //this now will allways take the last ray, if that one hit
+                        hitSth = true;
+                    }
                 }
             }
 
             Debug.DrawRay(transform.position + new Vector3(-(transform.lossyScale.x / 2) + d, direction * transform.lossyScale.y / 2), Vector3.up * toMoveDistance, Color.blue);
         }
-
         if (performMovement == true) transform.position += Vector3.up * toMoveDistance;
         return hitSth;
     }

@@ -9,18 +9,24 @@ public class GameController : MonoBehaviour {
     public static GameController activeInstance;
     public bool gameIsRunning = true;
 
-    public bool[] levelProgress = { true, false };
+    public bool[] levelProgress;
 
     //win if player in goal
     //lose if player in dead zone
 
     public PlayerController activePlayer;
     public Platform activePlatform;
+    public GameObject PlatformControllerPrefab;
+    public PlatformController activePlatformController;
+
+    private Vector3 playerStart;
+    private Vector3 platformStart;
 
     public GameObject goal;
     private GameObject goalOuterSquare;
     public float deathZoneDepth;
     private const float TIME_BEFORE_SCENE_LOAD = 2f;
+    private bool hitGoal = false;
 
     [Space(5)]
 
@@ -32,6 +38,7 @@ public class GameController : MonoBehaviour {
     [Header("Effects: ")]
 
     public GameObject playerDeathEffect;
+    public GameObject winEffect;
 
 
     void Awake() {
@@ -44,8 +51,15 @@ public class GameController : MonoBehaviour {
     }
 
     void Start() {
-        if (goal != null) goalOuterSquare = goal.transform.GetChild(0).gameObject;
         inMainMenu = (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main Menu"));
+
+        playerStart = activePlayer.transform.position;
+        platformStart = activePlatform.transform.position;
+
+        if (goal != null) goalOuterSquare = goal.transform.GetChild(0).gameObject;
+        if (activePlatformController == null) {
+            activePlatformController = Instantiate(PlatformControllerPrefab).GetComponent<PlatformController>();
+        }
     }
 
     void Update() {
@@ -64,15 +78,18 @@ public class GameController : MonoBehaviour {
     }
 
     private void CheckWin() {
-        RaycastHit2D[] boxHit = Physics2D.BoxCastAll(goal.transform.position, goal.transform.lossyScale * 1.5f, 0, Vector2.up);
+        RaycastHit2D[] boxHit = Physics2D.BoxCastAll(goal.transform.position, goal.transform.lossyScale * 1.5f, 0, Vector2.zero);
 
         foreach (RaycastHit2D hit in boxHit) {
             if (hit.collider != null) {
-                if (hit.collider.CompareTag("Player")) {
+                if (hit.collider.CompareTag("Player") && hitGoal == false) {
                     if (SceneManager.GetActiveScene().buildIndex + 1 > levelProgress.Length) {
                         levelProgress[SceneManager.GetActiveScene().buildIndex - 1] = true;
-                        StartCoroutine(LoadMainMenuAfterTime(TIME_BEFORE_SCENE_LOAD));
                     }
+                    GameObject _fx = Instantiate(winEffect, goal.transform.position, Quaternion.identity, null);
+                    Destroy(_fx, 1.5f);
+                    StartCoroutine(LoadMainMenuAfterTime(TIME_BEFORE_SCENE_LOAD));
+                    hitGoal = true;
                 }
             }
         }
@@ -82,20 +99,19 @@ public class GameController : MonoBehaviour {
         if (activePlayer.transform.position.y < deathZoneDepth) {
             GameObject _fx = Instantiate(playerDeathEffect, activePlayer.transform.position, Quaternion.identity, null);
             Destroy(_fx, 1f);
-            if (inMainMenu) {
-                activePlayer.transform.position = spawnPoint.transform.position;
-            }
-            else {
-                Destroy(activePlayer.gameObject);
-                gameIsRunning = false;
-                StartCoroutine(ReloadScene());
-            }
+            gameIsRunning = false;
+            StartCoroutine(RespawnPlayer());
         }
     }
 
-    private IEnumerator ReloadScene() {
+    private IEnumerator RespawnPlayer() {
+        activePlayer.gameObject.SetActive(false);
         yield return new WaitForSeconds(TIME_BEFORE_SCENE_LOAD);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        activePlayer.gameObject.SetActive(true);
+        activePlayer.transform.position = playerStart;
+        activePlatform.transform.position = platformStart;
+        activePlatformController.AdjustPlatform();
+        gameIsRunning = true;
     }
 
     private void AnimateGoal() {
@@ -116,6 +132,16 @@ public class GameController : MonoBehaviour {
     }
     private IEnumerator LoadMainMenuAfterTime(float time) {
         yield return new WaitForSeconds(time);
-        LoadMainMenu();
+        if (activePlayer != null) {
+            LoadMainMenu();
+        }
+    }
+
+    public void Save() {
+
+    }
+
+    public void Load() {
+
     }
 }

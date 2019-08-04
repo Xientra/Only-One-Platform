@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7008592015569959053}
   - component: {fileID: 7008592015569959050}
   - component: {fileID: 7374704763338096714}
-  - component: {fileID: 7008592015569959052}
   - component: {fileID: 7008592015569959054}
   m_Layer: 0
   m_Name: Player
@@ -110,24 +109,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.7}
   m_EdgeRadius: 0
---- !u!114 &7008592015569959052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7008592015569959051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c685b8920b7c5e49a64a52db3989d73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  platform: {fileID: 0}
-  platformPrefab: {fileID: 3845671390929768758, guid: 07939196819e6314eaa98cb4c3f4e150,
-    type: 3}
-  curserPlatformColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0.5019608}
-  cursorPlatformColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0.5019608}
 --- !u!114 &7008592015569959054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,5 +129,5 @@ MonoBehaviour:
   jumpStrength: 10
   jumpForceChangeSpeed: 2
   lowjumpHeight: 0.25
-  isGroundedDistance: 0.1
+  isGroundedDistance: 0.05
   coyoteTime: 0.05
