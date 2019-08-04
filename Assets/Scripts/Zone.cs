@@ -14,11 +14,31 @@ public class Zone : MonoBehaviour {
     public bool stopAnimation = false;
     public float animationSpeed = 1f; //animationDistance travelled in this time
     public float animationDistance = 0.12f;
-    private const float ANIMATION_PERCENT_STEP = 0.01f;
+    private const float ANIMATION_PERCENT_STEP = 0.005f;
+
+    
 
     void Start() {
         foreach (Transform t in lines) {
             StartCoroutine(Animate(t));
+        }
+
+        switch (type) {
+            case (ZoneType.NoPlaceZone):
+                animationSpeed = 50f;
+                break;
+            case (ZoneType.WallZone):
+                animationSpeed = 40f;
+                break;
+            case (ZoneType.ShrinkZone):
+                animationSpeed = 30;
+                break;
+            case (ZoneType.RemoveZone):
+                animationSpeed = 35f;
+                break;
+            case (ZoneType.DiscreteZone):
+                animationSpeed = 40;
+                break;
         }
     }
 

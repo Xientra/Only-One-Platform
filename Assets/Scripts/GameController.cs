@@ -156,5 +156,6 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < levelProgress.Length; i++) {
             levelProgress[i] = PlayerPrefs.GetString(LEVEL_SAVE_NAME + i.ToString()).ToLower() == true.ToString().ToLower();
         }
+        levelProgress[0] = true;
     }
 }

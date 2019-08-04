@@ -45,7 +45,7 @@ public class PlatformController : MonoBehaviour {
         }
 
         if (active == true && GameController.activeInstance.inMainMenu == false && unableToPlace == false) {
-            if (Input.GetAxis("Move Platform") != 0) {
+            if (Input.GetMouseButtonDown(0)) {
                 platform.transform.position = transform.position;
                 AdjustPlatform();
             }
@@ -71,7 +71,7 @@ public class PlatformController : MonoBehaviour {
         foreach (RaycastHit2D hit in allHits) {
             Zone collidedZone = hit.collider.GetComponent<Zone>();
             if (collidedZone != null) {
-                Debug.Log("collided with " + collidedZone.type);
+                //Debug.Log("collided with " + collidedZone.type);
                 switch (collidedZone.type) {
                     case (Zone.ZoneType.NoPlaceZone):
                         spr.color = unableToPlaceColor;
@@ -96,6 +96,11 @@ public class PlatformController : MonoBehaviour {
                         break;
                 }
             }
+
+            //if (hit.collider.CompareTag("Player")) {
+            //    spr.color = unableToPlaceColor;
+            //    unableToPlace = true;
+            //}
         }
     }
 
